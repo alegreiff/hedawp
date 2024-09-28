@@ -1,5 +1,5 @@
 ---
-import { API_BASE_URL } from '@/lib/constants';
+import { API_BASE_URL, maxPosts } from '@/lib/constants';
 import type { Post } from '@/interfaces.posts';
 import MainLayout from '@/layouts/MainLayout.astro';
 import { Image } from 'astro:assets';
@@ -12,7 +12,7 @@ export async function getStaticPaths() {
       body: JSON.stringify({
         query: `
         query AllSlugs {
-          posts {
+          posts (first:${maxPosts}) {
             nodes {
               slug
             }
