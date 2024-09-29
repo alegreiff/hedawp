@@ -1,2 +1,2 @@
 export const API_BASE_URL = "https://headless.alegreiff.com/graphql"
-export const maxPosts = 16
+export const maxPosts = 15

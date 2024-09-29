@@ -1,0 +1,118 @@
+---
+import { API_BASE_URL, maxPosts } from "@/lib/constants";
+import type { PageResponse, Post } from "@/interfaces.posts";
+import MainLayout from "@/layouts/MainLayout.astro";
+import SinglePost from "@/components/posts/SinglePost.astro";
+
+interface Props {
+	page: PageResponse
+}
+interface PaginateFunction {
+  (posts: Post[], options: { pageSize: number }): PageResponse;
+}
+// Astro passes getStaticPaths {paginate} function as destructured argument
+export async function getStaticPaths({paginate}: {paginate: PaginateFunction}): Promise<any>  {
+
+	
+  const response = await fetch(API_BASE_URL,
+  {
+    method: 'POST',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({
+      query: `
+				query IndexPage {
+					posts(where: {orderby: {field: DATE, order: DESC}}, first: ${maxPosts}) {
+						nodes {
+							slug
+							date
+							title
+							excerpt
+							featuredImage {
+								node {
+									sourceUrl
+								}
+							}
+						}
+					}
+				}
+      `
+    }),
+  });
+
+	// destructure data from our JSON
+	const { data } = await response.json();
+
+	//  assign the array of nodes to "posts" variable for usability
+	const posts = data.posts.nodes
+
+	// use pagination function to generate all our pages
+	return paginate(posts, {pageSize: 3})
+}
+
+const { page } = Astro.props;
+
+
+
+
+// Paginated entries are on page.data - we re-assign to posts for convenience
+const posts: Post[] = page.data as Post[]
+
+/* const response = await fetch(API_BASE_URL,
+  {
+    method: 'POST',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({
+      query: `
+				query IndexPage {
+					posts(where: {orderby: {field: DATE, order: DESC}}, first: ${maxPosts}) {
+						nodes {
+							slug
+							date
+							title
+							excerpt
+							featuredImage {
+								node {
+									sourceUrl(size: ARCHIVEIMAGE)
+								}
+							}
+						}
+					}
+				}
+      `
+    }),
+  }); */
+
+// destructure data from our JSON
+//const { data } = await response.json();
+//console.log( data )
+
+//  assign the array of nodes to "posts" variable for usability
+//const posts: Post[] = data.posts.nodes
+
+//return paginate(posts, {pageSize: maxPosts})
+// All pagination data is passed through the "page" prop
+//const { page } = Astro.props;
+
+// Paginated entries are on page.data - we re-assign to posts for convenience
+//const posts = page.data
+---
+<MainLayout>
+
+	<div class="bg-slate-200 rounded-lg py-12">
+					<h1 class="text-center text-3xl font-titulos font-extrabold">Contenido ADS</h1>
+	</div>
+
+	<div class="flex gap-6 justify-center items-center py-12">
+		{page.url.prev ? <a class="p-3 rounded-md bg-slate-500 text-white" href={page.url.prev}><svg  width="1em" height="1em" viewBox="0 0 20 20"><path fill="currentColor" d="M15.5 3a.5.5 0 0 0-.5.5v13a.5.5 0 0 0 1 0v-13a.5.5 0 0 0-.5-.5m-5.447.214A1.25 1.25 0 0 1 12 4.252v11.5a1.25 1.25 0 0 1-1.954 1.033l-8.499-5.793a1.25 1.25 0 0 1 .007-2.07z"/></svg></a> : <span class="text-gray-500 p-3 rounded-md block bg-gray-300"> <svg  width="1em" height="1em" viewBox="0 0 20 20"><path fill="currentColor" d="M15.5 3a.5.5 0 0 0-.5.5v13a.5.5 0 0 0 1 0v-13a.5.5 0 0 0-.5-.5m-5.447.214A1.25 1.25 0 0 1 12 4.252v11.5a1.25 1.25 0 0 1-1.954 1.033l-8.499-5.793a1.25 1.25 0 0 1 .007-2.07z"/></svg> </span>}
+		{page.url.next ? <a class="p-3 rounded-md bg-slate-500 text-white" href={page.url.next}><svg class="rotate-180" width="1em" height="1em" viewBox="0 0 20 20"><path fill="currentColor" d="M15.5 3a.5.5 0 0 0-.5.5v13a.5.5 0 0 0 1 0v-13a.5.5 0 0 0-.5-.5m-5.447.214A1.25 1.25 0 0 1 12 4.252v11.5a1.25 1.25 0 0 1-1.954 1.033l-8.499-5.793a1.25 1.25 0 0 1 .007-2.07z"/></svg></a> : <span class="text-gray-500 p-3 rounded-md block bg-gray-300"><svg class="rotate-180" width="1em" height="1em" viewBox="0 0 20 20"><path fill="currentColor" d="M15.5 3a.5.5 0 0 0-.5.5v13a.5.5 0 0 0 1 0v-13a.5.5 0 0 0-.5-.5m-5.447.214A1.25 1.25 0 0 1 12 4.252v11.5a1.25 1.25 0 0 1-1.954 1.033l-8.499-5.793a1.25 1.25 0 0 1 .007-2.07z"/></svg></span>}
+	</div>
+	
+	<div class="flex flex-wrap pt-5 -mx-2.5">
+		{posts.map((post, i) => (
+			<SinglePost post={post} />
+		))}
+	</div>
+	
+	
+
+</MainLayout>				
