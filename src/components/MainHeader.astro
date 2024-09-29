@@ -1,3 +1,9 @@
+---
+// Supports weights 200-800
+import '@fontsource-variable/assistant';
+// Supports weights 100-900
+import '@fontsource-variable/onest';
+---
 <header class="bg-slate-400 py-5 px-10 text-center container mx-auto">
   <div class="navbar bg-base-100">
     <div class="flex-1">
@@ -20,3 +26,8 @@
   </div>
 </header>
 
+<style is:global>
+  body {
+    @apply font-onest text-slate-500;
+  }
+</style>

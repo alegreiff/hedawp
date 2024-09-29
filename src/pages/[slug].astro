@@ -51,7 +51,7 @@ const singleResponse = await fetch(API_BASE_URL,
             title
             featuredImage {
               node {
-                sourceUrl
+                sourceUrl(size: ARCHIVEIMAGE)
               }
             }
           }
