@@ -1,8 +1,9 @@
 ---
 import { API_BASE_URL, maxPosts } from "@/lib/constants";
-import type { PageResponse, Post } from "@/interfaces.posts";
+import type { PageResponse, Post, OpcionesPage } from "@/interfaces.posts";
 import MainLayout from "@/layouts/MainLayout.astro";
 import SinglePost from "@/components/posts/SinglePost.astro";
+import { getWPoptionsMain } from "@/lib/queries";
 
 interface Props {
 	page: PageResponse
@@ -38,6 +39,9 @@ export async function getStaticPaths({paginate}: {paginate: PaginateFunction}): 
       `
     }),
   });
+
+	
+	
 
 	// destructure data from our JSON
 	const { data } = await response.json();

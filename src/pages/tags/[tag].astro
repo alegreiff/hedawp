@@ -1,0 +1,42 @@
+---
+import SinglePost from '@/components/posts/SinglePost.astro';
+import type { Post, Node } from '@/interfaces.posts';
+import MainLayout from '@/layouts/MainLayout.astro';
+import { API_BASE_URL } from '@/lib/constants';
+import { getAllTags, getPostsByTag } from '@/lib/queries';
+
+export async function getStaticPaths() {
+  
+  const tags = await getAllTags()
+  const paths = tags.map(tag => {
+    return {
+			params: {tag: tag.slug},
+			props: {tagName: tag.name}
+		}
+  })
+
+  return paths
+}
+// Grab all the posts for the tag passed as a param in our dynamic route
+const { tag } = Astro.params;
+const { tagName } = Astro.props;
+
+const posts:Post[] = await getPostsByTag(tag)
+
+
+// destructure data from our JSON
+
+---
+<MainLayout>
+
+	<div class="bg-slate-200 rounded-lg py-12">
+		<h1 class="text-center text-3xl">{tagName}</h1>
+	</div>
+	
+	<div class="flex flex-wrap pt-5 -mx-2.5">
+		{posts.map((post, i) => (
+			<SinglePost post={post} />
+		))}
+	</div>
+
+</MainLayout>

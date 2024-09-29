@@ -1,3 +1,7 @@
+export interface OpcionesPage{
+  id: number;
+  copy: string;
+}
 export interface Post {
   slug: string
   date: string
@@ -31,4 +35,17 @@ export interface Url {
   next: string
   last: string
   prev?: string
+}
+
+export interface ListaTags {
+  tags: Tags;
+}
+
+export interface Tags {
+  nodes: Node[];
+}
+
+export interface Node {
+  name: string;
+  slug: string;
 }

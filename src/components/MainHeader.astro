@@ -1,16 +1,26 @@
 ---
+
 // Supports weights 200-800
+import type { OpcionesPage } from '@/interfaces.posts';
+import { getAllTags, getWPoptionsMain } from '@/lib/queries';
 import '@fontsource-variable/assistant';
 // Supports weights 100-900
 import '@fontsource-variable/onest';
+const tags = await getAllTags()
+const tempo = await getWPoptionsMain() as OpcionesPage;
 ---
 <header class="bg-slate-400 py-5 px-10 text-center container mx-auto">
   <div class="navbar bg-base-100">
     <div class="flex-1">
-      <a class="btn btn-ghost text-xl" href="/">ADS</a>
+      <a class="btn btn-ghost text-xl" href="/">{tempo.copy}</a>
     </div>
-    <div class="flex-none hidden">
+    <div class="flex-none gap-2">
       <ul class="menu menu-horizontal px-1">
+        <div class="flex items-center gap-8">
+          {tags.map(tag => (
+            <li><a class="font-bold hover:underline" href={`/tags/${tag.slug}`}>{tag.name}</a></li>
+          ))}
+        </div>
         <li><a>Link</a></li>
         <li>
           <details>
@@ -21,6 +31,7 @@ import '@fontsource-variable/onest';
             </ul>
           </details>
         </li>
+        
       </ul>
     </div>
   </div>
