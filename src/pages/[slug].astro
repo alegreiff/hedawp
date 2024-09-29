@@ -75,7 +75,7 @@ const singlePost: Post = data.post
         {new Date(singlePost.date).toLocaleDateString('en-us', { year:"numeric", month:"long", day:"numeric"})}
       </p>
     </div>
-    <h1 class="text-center text-3xl text-bold mb-10">{singlePost.title}</h1>
+    <h1 class="text-center text-3xl text-bold mb-10" transition:name={singlePost.slug}>{singlePost.title}</h1>
     {
       singlePost.featuredImage && (
         <Image src={singlePost.featuredImage.node.sourceUrl} width={600} height={400} alt={singlePost.title} />

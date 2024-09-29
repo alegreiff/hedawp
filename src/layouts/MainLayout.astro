@@ -1,6 +1,7 @@
 ---
 import MainFooter from "@/components/MainFooter.astro";
 import MainHeader from "@/components/MainHeader.astro";
+import { ViewTransitions } from "astro:transitions";
 
 ---
 
@@ -9,6 +10,7 @@ import MainHeader from "@/components/MainHeader.astro";
 		<meta charset="utf-8" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="viewport" content="width=device-width" />
+		<ViewTransitions />
 		<meta name="generator" content={Astro.generator} />
 		<title>Astro + WP</title>
 	</head>
