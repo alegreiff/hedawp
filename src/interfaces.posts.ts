@@ -9,6 +9,11 @@ export interface Post {
   excerpt: string
   featuredImage?: FeaturedImage
   content?: string
+  custom?: CustomData
+}
+
+export interface CustomData {
+  url?: string
 }
 
 export interface FeaturedImage {

@@ -7,8 +7,8 @@ export const getWPoptionsMain = async () => {
       method: 'POST',
       headers: {'Content-Type':'application/json'},
       body: JSON.stringify({
-        query: `
-          query opziones {
+        query: `#graphql
+          query opciones {
            data: opcionesPageMain {
             options: adsOpciones {
               id: adsCompilacion
@@ -34,7 +34,7 @@ export const getAllTags = async () => {
     method: 'POST',
     headers: {'Content-Type':'application/json'},
     body: JSON.stringify({
-      query: `
+      query: `#graphql
         query AllTags {
           tags {
             nodes {
@@ -91,3 +91,4 @@ export const getPostsByTag = async (tag: string) => {
 
   return posts
 }
+

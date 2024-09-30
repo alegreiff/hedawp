@@ -10,7 +10,7 @@ export async function getStaticPaths() {
       method: 'POST',
       headers: {'Content-Type':'application/json'},
       body: JSON.stringify({
-        query: `
+        query: `#graphql
         query AllSlugs {
           posts (first:${maxPosts}) {
             nodes {
@@ -43,7 +43,7 @@ const singleResponse = await fetch(API_BASE_URL,
       method: 'POST',
       headers: {'Content-Type':'application/json'},
       body: JSON.stringify({
-        query: `
+        query: `#graphql
         query SinglePost($id: ID = "${slug}") {
           post(idType: SLUG, id: $id) {
             date
@@ -54,6 +54,9 @@ const singleResponse = await fetch(API_BASE_URL,
                 sourceUrl(size: ARCHIVEIMAGE)
               }
             }
+            custom: adsEntradas {
+       					 url: adsPostUrl      
+							}
           }
         }
         `
@@ -81,8 +84,13 @@ const singlePost: Post = data.post
         <Image src={singlePost.featuredImage.node.sourceUrl} width={600} height={400} alt={singlePost.title} transition:name={`${singlePost.slug}-image`}/>
       )
     }
+
     <!-- We can use the set:html directive with a self closing tag to output raw html -->
     <div set:html={singlePost.content} class="prose lg:prose-lg" />
+
+    { singlePost.custom?.url && <a class="btn btn-accent" href={ singlePost.custom.url } target="_blank">Visitar recurso</a>
+
+    }
 
 
 </article>

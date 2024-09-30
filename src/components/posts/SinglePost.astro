@@ -15,6 +15,7 @@ const { post } = Astro.props
       { post.featuredImage && <figure class="overflow-hidden"><Image src={post.featuredImage.node.sourceUrl} class="transition duration-200 group-hover:scale-110 " width={600} height={400} alt={post.title} transition:name={`${post.slug}-image`} /></figure> 
     
     }
+    
 
       <h2 class="text-xl mb-5 font-titulos font-normal text-slate-800" transition:name={`${post.slug}-title`}>{post.title}</h2>
       <p class=" mb-6">{post.excerpt.replace(/<(.|\n)*?>/g, '')}</p>
