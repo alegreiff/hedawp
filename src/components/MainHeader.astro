@@ -1,6 +1,5 @@
 ---
 
-// Supports weights 200-800
 import type { OpcionesPage } from '@/interfaces.posts';
 import { getAllTags, getWPoptionsMain } from '@/lib/queries';
 import '@fontsource-variable/assistant';
@@ -17,17 +16,16 @@ const tempo = await getWPoptionsMain() as OpcionesPage;
     <div class="flex-none gap-2">
       <ul class="menu menu-horizontal px-1">
         <div class="flex items-center gap-8">
-          {tags.map(tag => (
-            <li><a class="font-bold hover:underline" href={`/tags/${tag.slug}`}>{tag.name}</a></li>
-          ))}
+          
         </div>
-        <li><a>Link</a></li>
+        <!-- <li><a>Etiquetas</a></li> -->
         <li>
           <details>
-            <summary>Parent</summary>
+            <summary>Etiquetas</summary>
             <ul class="bg-base-100 rounded-t-none p-2">
-              <li><a>Link 1</a></li>
-              <li><a>Link 2</a></li>
+              {tags.map(tag => (
+                <li><a class="font-bold hover:underline" href={`/tags/${tag.slug}`}>{tag.name}</a></li>
+              ))}
             </ul>
           </details>
         </li>
